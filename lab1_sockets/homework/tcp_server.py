@@ -2,14 +2,12 @@ import socket
 import threading
 
 
-# ustawienia serwera
 server_ip = '127.0.0.1'
 server_port = 9008
-# struktura do przechowywania nicków klientów wraz z ich połączeniami
+
 clients = {}
 
 
-# funkcja wysyłająca wiadomość do wszystkich podłączonych klientów
 def broadcast(message, sender):
     
     for client in clients.values():
@@ -17,7 +15,6 @@ def broadcast(message, sender):
             client.send(message.encode('utf-8'))
 
 
-# funkcja obsługująca wiadomość przychodzącą od klienta
 def handle(nick):
     
     client = clients[nick]
@@ -34,13 +31,28 @@ def handle(nick):
             break
 
 
-# funkcja obsługująca nowe połączenie
+# funkcja odpowiadająca za odbieranie wiadomości na kanale udp
+def handle_udp():
+    
+    # tworzenie gniazda typu udp
+    udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    udp_socket.bind(('', server_port))
+
+    # odbieranie i przesyłanie wiadomości
+    while True:
+        msg, client = udp_socket.recvfrom(1024)
+        broadcast(msg.decode('utf-8'), client)
+
+
 def receive():
     
-    # tworzone jest gniazdo serwera
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.bind((server_ip, server_port))
     server_socket.listen()
+
+    # wątek odpowiadający za kanał udp od strony serwera
+    upd_thread = threading.Thread(target=handle_udp)
+    upd_thread.start()
 
     while True:
 
