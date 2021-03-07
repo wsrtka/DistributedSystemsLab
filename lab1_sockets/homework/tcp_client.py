@@ -22,9 +22,9 @@ def write(nick, server):
 
     # funkcja odpowiadająca za wysłanie wiadomości udp
     def write_udp_msg():
-        
+
         with open('heart.txt', 'r') as file:
-            udp_socket.sendto(file.read(), (server_ip, server_port))
+            udp_socket.sendto(file.read().encode('utf-8'), (server_ip, server_port))
 
     udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
