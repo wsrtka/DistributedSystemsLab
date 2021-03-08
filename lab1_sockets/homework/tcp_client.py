@@ -1,6 +1,6 @@
 import socket
 import threading
-from struct import pack
+import struct
 
 
 server_ip = '127.0.0.1'
@@ -44,9 +44,9 @@ def write(nick, server, mcast_socket):
 
         if message == 'U':
             with open('heart.txt', 'r') as file:
-            udp_socket.sendto(file.read().encode('utf-8'), (server_ip, server_port))
+                udp_socket.sendto(file.read().encode('utf-8'), (server_ip, server_port))
         # obsługa wysłania wiadomości multicast
-        elif message == 'M'
+        elif message == 'M':
             with open('peace.txt', 'r') as file:
                 mcast_socket.sendto(file.read().encode('utf-8'), (multicast_ip, multicast_port))
         else: 
@@ -67,6 +67,7 @@ if __name__ == '__main__':
 
     # tworzenie nowego gniazda multicast
     mcast_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    mcast_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     mcast_socket.bind(('', multicast_port))
 
     # dodanie gniazda do grupy multicast
