@@ -1,4 +1,1 @@
-lab1_sockets/*.java
-lab1_sockets/*.class
-lab1_sockets/*.py
-!lab1_sockets/homework/*.py
+**/oswiadczenie.txt
