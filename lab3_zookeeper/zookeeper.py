@@ -58,11 +58,9 @@ if __name__ == "__main__":
         global program_thread
         if 'z' in children:
             if not program_thread or program_thread.poll():
-                print('Opening')
                 program_thread = subprocess.Popen([program])
         else:
             if program_thread and not program_thread.poll():
-                print('Closing')
                 program_thread.terminate()
 
     @zk.ChildrenWatch('/z')
