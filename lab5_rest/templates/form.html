@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}DINAJ?{% endblock %}
+
+{% block content %}
+
+<h1>Do I need a jacket</h1>
+
+<form method="POST">
+    <label for="city">in</label>
+    <input type="text" name="city" id="city" placeholder="City" required>
+
+    <label for="date_start">between</label>
+    <input type="date" name="date_start" id="date_start" required>
+
+    <label for="date_end">and</label>
+    <input type="date" name="date_end" id="date_end" required>
+    ?
+    <br>
+    <input type="submit" value="Ask">
+</form>
+
+{% endblock %}

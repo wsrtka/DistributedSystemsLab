@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Results{% endblock %}
+
+{% block content %}
+
+<h1>Do I need a jacket in {{city}} from {{date_start}} to {{date_end}}?</h1>
+
+{% if openweather %}
+<h3>Here is what OpenWeather says:</h3>
+{% for data in openweather %}
+    <p>{{ data.date }}: 
+        {% if data.min_temp < 15 %}
+            Yes, 
+        {% else %}
+            No, 
+        {% endif %}
+        because there will be at least {{ data.min_temp }} degrees Celsius. You can expect an average temperature of {{ data.avg_temp }} with a maximum of {{ data.max_temp }}. <br>
+
+        It will feel like it's {{ data.feels_like }} degrees. <br>
+
+        {% if data.precipation_id < 800 %}
+            Take an umbrella, because there will be {{ data.precipation }}.
+        {% endif %}
+    </p>
+{% endfor %}
+{% else %}
+    <h3>OpenWeather does not provide weather data for this time period.</h3>
+{% endif %}
+
+{% if metaweather %}
+    <h3>Here is what MetaWeather says:</h3>
+    {% for data in metaweather %}
+    <p>{{ data.date }}: 
+        {% if data.min_temp < 15 %}
+            Yes, 
+        {% else %}
+            No, 
+        {% endif %}
+        because there will be at least {{ data.min_temp }} degrees Celsius. You can expect an average temperature of {{ data.avg_temp }} with a maximum of {{ data.max_temp }}. <br>
+
+        Different forecasts agree in {{ data.predictability }}%.
+    </p>
+    {% endfor %}
+{% else %}
+    <h3>MetaWeather does not provide weather data for this time period.</h3>
+{% endif %}
+
+<a href="/do_i_need_a_jacket">Go back to main page.</a>
+
+{% endblock %}
