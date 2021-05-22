@@ -1,2 +1,5 @@
 **/oswiadczenie.txt
 /.*
+**/__pycache__
+**/config.py
+instance
